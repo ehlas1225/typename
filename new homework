@@ -1,0 +1,159 @@
+SNL语言文法
+总程序：
+1）	Program::=ProgramHead DeclarePart ProgranBody .
+2）	ProgramHead::=program  ProgranName
+3）	ProgranName::=ID
+4）	DeclarePart::=TypeDecpart VarDecpart  ProcDecpart
+5）	TypeDecpart::=ε
+6）	            | TypeDec
+7）	TypeDec::=type TypeDecList
+8）	TypeDecList::=TypeId= TypeName; TypeDecMore
+9）	TypeDecMore::= ε
+10）	          | TypeDecList
+11）	TypeId::=ID
+12）	TypeName::=BaseName 
+13）	           | StructureType 
+14）	           | ID
+15）	BaseName::=integer 
+16）	           | char
+17）	StructureType::=ArrayType 
+18）	             | RecType
+19）	ArrayType::=array[low..top]  of  BaseType 
+20）	Low::=INTC   
+21）	Top::= INTC     
+22）	RecType::=record  FieldDecList  end
+23）	FieldDecList::=BaseType  IdList ; FieldDecMore
+24）	             |ArrayType  IdList; FieldDecMore
+25）	FieldDecMore::= ε
+26）	            | FieldDecList
+27）	IdList::=ID IdMore
+28）	IdMore::=ε
+29）	         |,IdList
+
+变量声明
+30）	VarDecpart::= ε
+31）	             |VarDec
+32）	VarDec::=var VarDecList
+33）	VarDecList::=TypeName VarIdList; VarDecMore
+34）	VarDecMore::= ε
+35）	               | VarDecList
+36）	VarIdList::= id VarIdMore
+37）	VarIdMore::= ε
+38）	             | ,VarIdList
+ 过程声明
+39）	ProcDecpart::= ε
+40）	             | ProcDec
+41）	ProcDec::=procdure
+ ProcName(ParamList);
+ ProcDecPart
+ ProcBody
+ ProcDecMore
+42）	ProcDecMore::= ε
+43）	              | ProcDeclaration
+44）	ProcName::=ID
+参数声明
+45）	ParamList::= ε
+46）	           | ParamDecList
+47）	ParamDecList::= Param  ParamMore
+48）	ParamMore::= ε
+49）	             | ; ParamDecList
+50）	Param::=TypeName  FormList
+51）	        | var TypeName  FormList
+52）	FormList::=ID FidMore
+53）	FidMore::= ε
+54）	          |, FormList
+过程中的声明
+55）	ProcDecPart::= DeclarePart
+过程体
+56）	ProcBody::=ProgramBody
+57）	ProgramBody::=begin　StmList  end.
+语句序列
+58）	StmList::=Stm StmMore
+59）	StmMore::= ε
+60）	          |; StmList
+
+语句
+61）	StmList::=ConditionalStm
+62）	         | LoopStm
+63）	         | InputStm
+64）	         | OutputStm
+65）	         | ReturnStm
+66）	         | ID AssCall
+67）	AssCall::=AssignmentRest
+68）	         | CallStmRest
+69）	AssignmentRest::= VariMore:=Exp
+70）	ConditionalStm::=if RelExp then StmList else StmList fi
+71）	LoopStm::=while RelExp do StmList endwh
+72）	InputStm::=read(Invar)
+73）	Invar::=ID
+74）	OutputStm::=write(Exp)
+75）	ReturnStm::=return(Exp)
+76）	CallStmRest::=(ActParamList)
+77）	ActParamList::= ε
+78）	              |Exp  ActParamMore
+79）	ActParamList::= ε
+80）	              |; ActParamList
+81）	RelExp::=Exp OtherRelE
+82）	OtherRelE::=CmpOp Exp
+83）	Exp::=Term OtherTerm
+84）	OtherTerm::= ε
+85）	            |AddOp Exp
+86）	Term::= Factor OtherFactor
+87）	OtherFactor::= ε
+88）	            |MulOp  Term
+89）	Factor::=(Exp)
+90）	       | INTC
+91）	       | Variable
+92）	Variable::=ID VariMore
+93）	VariMore::= ε
+94）	          |[Exp]
+95）	          |.FieldVar
+96）	FieldVar::=ID FieldVarMore
+97）	FieldVarMore::= ε
+98）	             |[Exp]
+99）	CmpOp::=<
+100）	        | =
+101）	AddOp::=+
+102）	        |-
+103）	MultOp::=*
+104）	         |/
+
+（三）ＳＮＬ语言的例子
+program bubble
+var integer i,j,num;
+array[1..20] of integer a;
+procedure q(integer num);
+var integer i,j,k;
+   integer t;
+begin
+  i:=1;
+  j:=1
+  while i<num do
+j:=num-i+1;
+k:=1
+while k<j do
+   if a[k+1]<a[k] then t:=a[k]; a[k]:=a[k+1]; a[k+1]:=t 
+      else  temp:=0
+   fi; 
+k:=k+1
+endwh;
+i:=i+1
+endwh
+end
+begin
+    read(num);
+    i:=1;
+    while i<(num+1) do
+         read(j);
+          a[i]:=j;
+i:=i+1
+endwh;
+q(num);
+i:=1;
+while i<(num+1) do
+      write(a[i]);
+      a[i]:=j; 
+      i:=i+1
+endwh
+end .
+
